@@ -1,8 +1,9 @@
 import axios from "axios";
+import {formatData} from "./dataChartUtils";
 
 const fetchAllCurrencies = async (url, setCurrencies, first) => {
     let pairs = [];
-    await axios.get(url)
+    await axios.get(url + "/products")
         .then(res => {
             pairs = res.data;
         })
@@ -16,7 +17,7 @@ const fetchAllCurrencies = async (url, setCurrencies, first) => {
     first.current = true;
 }
 
-const fetchCurrencyInfo = (pair, socket, setPrice, first) => {
+const fetchCurrencyInfo = async (url, pair, socket, setPrice, first, setPastData) => {
     if (!first.current) {
         return;
     }
@@ -41,6 +42,15 @@ const fetchCurrencyInfo = (pair, socket, setPrice, first) => {
             setPrice(data.price);
         }
     }
+
+    let historicalDataURL = `${url}/products/${pair}/candles?granularity=86400`;
+    let dataArr = [];
+    await axios.get(historicalDataURL)
+        .then((data) => (dataArr = data));
+
+    // //helper function to format data that will be implemented later
+    let formattedData = formatData(dataArr);
+    setPastData(formattedData);
 }
 
 const changeCurrency = (e, url, pair, setPair, socket) => {
