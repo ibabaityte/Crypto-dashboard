@@ -1,15 +1,17 @@
 export const formatData = (data) => {
     let finalData = {
-        labels: [],
-        datasets: [
-            {
-                label: "Price",
-                data: [],
-                backgroundColor: "rgb(255, 99, 132, 0.8)",
-                borderColor: "rgba(255, 99, 132, 0.2)",
-                fill: false
-            }
-        ]
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: "Price",
+                    data: [],
+                    backgroundColor: "rgb(2, 222, 151)",
+                    borderColor: "rgba(2, 222, 151, 0.2)",
+                    fill: false
+                }
+            ]
+        }
     };
 
     //convert dates from timestamp to mm/dd/yy format
@@ -35,10 +37,10 @@ export const formatData = (data) => {
     dates.reverse();
 
     //set data labels as the date array for ChartJS
-    finalData.labels = dates;
+    finalData.data.labels = dates;
 
     //price array will be used as dataset for ChartJS
-    finalData.datasets[0].data = priceArr;
+    finalData.data.datasets[0].data = priceArr;
 
-    return finalData;
+    return finalData.data;
 };

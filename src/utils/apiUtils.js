@@ -48,7 +48,7 @@ const fetchCurrencyInfo = async (url, pair, socket, setPrice, first, setPastData
     await axios.get(historicalDataURL)
         .then((data) => (dataArr = data));
 
-    // //helper function to format data that will be implemented later
+    // helper function to format data that will be implemented later
     let formattedData = formatData(dataArr);
     setPastData(formattedData);
 }

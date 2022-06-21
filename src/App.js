@@ -1,7 +1,17 @@
 import React, {useState, useEffect, useRef} from "react";
-import {fetchAllCurrencies, fetchCurrencyInfo, changeCurrency} from "./utils/apiUtils";
-import Dashboard from "./components/Dashboard";
-import "./styles.css";
+
+// style imports
+import "./styles/styles.css";
+
+// material ui imports
+import Grid from '@mui/material/Grid';
+
+// util imports
+import {fetchAllCurrencies, fetchCurrencyInfo} from "./utils/apiUtils";
+
+// component imports
+import Header from "./components/Header";
+import Content from "./components/Content";
 
 const App = () => {
 
@@ -17,41 +27,30 @@ const App = () => {
     let socket = useRef(null);
     let first = useRef(false);
 
+    console.log(pastData);
+
     useEffect(() => {
         socket.current = new WebSocket('wss://ws-feed.pro.coinbase.com');
         fetchAllCurrencies(url, setCurrencies, first).then(err => err ? console.log(err) : null);
     }, []);
 
     useEffect(() => {
-        fetchCurrencyInfo(url, pair, socket, setPrice, first, setPastData);
+        fetchCurrencyInfo(url, pair, socket, setPrice, first, setPastData).then(err => err ? console.log(err) : null);
     }, [pair]);
 
-    console.log(pastData);
     return (
-        <div className="App">
-            <h1>Crypto dashboard</h1>
-            <p>{pair}</p>
-            <label htmlFor="crypto">Select cryptocurrency:</label>
-
-            <select name="crypto" id="crypto" onChange={(e) => changeCurrency(e, url, pair, setPair, socket)}>
-                <option value="">Select currency</option>
-                {
-                    currencies.map((currency, key) => {
-                        return <option key={key} value={currency.id}>{currency.id}</option>
-                    })
-                }
-            </select>
-
-            {
-                pair === "" ?
-                    <p>$0.00</p>
-                    :
-                    <p>${price}</p>
-            }
-
-            <Dashboard data={pastData}/>
-
-        </div>
+        <Grid container className="App">
+            <Header/>
+            <Content
+                url={url}
+                price={price}
+                pastData={pastData}
+                pair={pair}
+                setPair={setPair}
+                socket={socket}
+                currencies={currencies}
+            />
+        </Grid>
     );
 }
 
