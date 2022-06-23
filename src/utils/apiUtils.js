@@ -1,5 +1,6 @@
 import axios from "axios";
 import {formatData} from "./dataChartUtils";
+import React from "react";
 
 const fetchAllCurrencies = async (url, setCurrencies, first) => {
     let pairs = [];
@@ -13,6 +14,10 @@ const fetchAllCurrencies = async (url, setCurrencies, first) => {
 
     let filtered = pairs.filter(pair => pair.quote_currency === 'USD');
     filtered.sort((a, b) => (a.base_currency > b.base_currency) ? 1 : -1);
+    // const currencyList = filtered.map((currency, key) => {
+    //     return <option key={key} value={currency.id}>{currency.id}</option>
+    // });
+    // setCurrencies(currencyList);
     setCurrencies(filtered);
     first.current = true;
 }
@@ -54,16 +59,20 @@ const fetchCurrencyInfo = async (url, pair, socket, setPrice, first, setPastData
 }
 
 const changeCurrency = (e, url, pair, setPair, socket) => {
-    let unsub = {
-        type: "unsubscribe",
-        product_ids: [pair],
-        channels: ["ticker"]
-    };
-    let unsubMsg = JSON.stringify(unsub);
+    if(e.target.value === "Crypto currency") {
+        return null;
+    } else {
+        let unsub = {
+            type: "unsubscribe",
+            product_ids: [pair],
+            channels: ["ticker"]
+        };
+        let unsubMsg = JSON.stringify(unsub);
 
-    socket.current.send(unsubMsg);
+        socket.current.send(unsubMsg);
 
-    setPair(e.target.value);
+        setPair(e.target.value);
+    }
 }
 
 export {fetchAllCurrencies, fetchCurrencyInfo, changeCurrency};

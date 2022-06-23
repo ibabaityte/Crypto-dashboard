@@ -1,13 +1,18 @@
 import React from "react";
 
 // component imports
-import ChartInfo from "./ChartInfo";
+import ChartPanel from "./ChartPanel";
 import ChartComponent from "./ChartComponent";
 
 // material ui imports
-import Grid from '@mui/material/Grid';
+import {Grid} from "@material-ui/core";
+
+// style imports
+import contentStyles from "../styles/contentStyles";
 
 const CryptoInfo = (props) => {
+
+    const classes = contentStyles();
 
     const {
         pair,
@@ -16,15 +21,15 @@ const CryptoInfo = (props) => {
     } = props;
 
     return (
-        <Grid container className={`dashboard`}>
-            <ChartInfo
-                pair={pair}
-                price={price}
-            />
+        <Grid item xs={12} className={classes.cryptoInfo}>
+                <ChartPanel
+                    pair={pair}
+                    price={price}
+                />
 
-            <ChartComponent
-                data={pastData}
-            />
+                <ChartComponent
+                    data={pastData}
+                />
         </Grid>
     );
 }

@@ -4,7 +4,7 @@ import React, {useState, useEffect, useRef} from "react";
 import "./styles/styles.css";
 
 // material ui imports
-import Grid from '@mui/material/Grid';
+import {Grid} from "@material-ui/core";
 
 // util imports
 import {fetchAllCurrencies, fetchCurrencyInfo} from "./utils/apiUtils";
@@ -26,8 +26,6 @@ const App = () => {
     const url = "https://api.exchange.coinbase.com";
     let socket = useRef(null);
     let first = useRef(false);
-
-    console.log(pastData);
 
     useEffect(() => {
         socket.current = new WebSocket('wss://ws-feed.pro.coinbase.com');

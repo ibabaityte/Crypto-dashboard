@@ -3,11 +3,16 @@ import { Line } from "react-chartjs-2";
 import { Chart, registerables } from 'chart.js';
 
 // material ui imports
-import Grid from '@mui/material/Grid';
+import {Grid} from "@material-ui/core";
+
+// style imports
+import contentStyles from "../styles/contentStyles";
 
 Chart.register(...registerables);
 
 const ChartComponent = (props) => {
+
+    const classes = contentStyles();
 
     const opts = {
         tooltips: {
@@ -31,8 +36,8 @@ const ChartComponent = (props) => {
     };
 
     return (
-        <Grid item xs={10} className="dashboard">
-            <div className="chart-container">
+        <Grid item xs={12} className={classes.chartContainer}>
+            <div className={classes.chart}>
                 <Line data={props.data} options={opts} />
             </div>
         </Grid>
