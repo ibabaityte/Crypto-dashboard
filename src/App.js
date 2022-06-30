@@ -22,31 +22,32 @@ const App = () => {
         datasets: [],
         labels: []
     });
+    const [timeInterval, setTimeInterval] = useState("300");
 
-    const url = "https://api.exchange.coinbase.com";
     let socket = useRef(null);
     let first = useRef(false);
 
     useEffect(() => {
         socket.current = new WebSocket('wss://ws-feed.pro.coinbase.com');
-        fetchAllCurrencies(url, setCurrencies, first).then(err => err ? console.log(err) : null);
+        fetchAllCurrencies(setCurrencies, first).then(err => err ? console.log(err) : null);
     }, []);
 
     useEffect(() => {
-        fetchCurrencyInfo(url, pair, socket, setPrice, first, setPastData).then(err => err ? console.log(err) : null);
-    }, [pair]);
+        fetchCurrencyInfo(pair, socket, setPrice, first, setPastData, timeInterval).then(err => err ? console.log(err) : null);
+    }, [pair, timeInterval]);
 
     return (
         <Grid container className="App">
             <Header/>
             <Content
-                url={url}
                 price={price}
                 pastData={pastData}
                 pair={pair}
                 setPair={setPair}
                 socket={socket}
                 currencies={currencies}
+                timeInterval={timeInterval}
+                setTimeInterval={setTimeInterval}
             />
         </Grid>
     );

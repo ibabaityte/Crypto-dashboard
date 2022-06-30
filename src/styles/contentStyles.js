@@ -25,6 +25,25 @@ const contentStyles = makeStyles(() => ({
     },
     cryptoInfo: {
         height: "70%"
+    },
+    intervalDiv: {
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center"
+    },
+    interval: {
+        "&.MuiButtonGroup-root": {
+            display: "block",
+            height: "auto"
+        }
+    },
+    selector: {
+        "&.MuiButton-textPrimary": {
+            color: "rgb(4,190,152)"
+        },
+        "&.MuiButtonGroup-groupedTextHorizontal:not(:last-child)": {
+            borderRight: "1px solid rgb(4,190,152)"
+        }
     }
 }));
 

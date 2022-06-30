@@ -2,8 +2,9 @@ import axios from "axios";
 import {formatData} from "./dataChartUtils";
 import React from "react";
 
-const fetchAllCurrencies = async (url, setCurrencies, first) => {
+const fetchAllCurrencies = async (setCurrencies, first) => {
     let pairs = [];
+    const url = "https://api.exchange.coinbase.com";
     await axios.get(url + "/products")
         .then(res => {
             pairs = res.data;
@@ -14,15 +15,38 @@ const fetchAllCurrencies = async (url, setCurrencies, first) => {
 
     let filtered = pairs.filter(pair => pair.quote_currency === 'USD');
     filtered.sort((a, b) => (a.base_currency > b.base_currency) ? 1 : -1);
-    // const currencyList = filtered.map((currency, key) => {
-    //     return <option key={key} value={currency.id}>{currency.id}</option>
-    // });
-    // setCurrencies(currencyList);
     setCurrencies(filtered);
     first.current = true;
 }
 
-const fetchCurrencyInfo = async (url, pair, socket, setPrice, first, setPastData) => {
+const changeTimeInterval = (timeInterval, pair) => {
+    let url = "";
+    let endDate = new Date();
+    let startDate = new Date();
+    switch(timeInterval) {
+        case "300":
+            url = `https://api.exchange.coinbase.com/products/${pair}/candles?granularity=86400`;
+            break;
+        case "30":
+            startDate = startDate.setDate(startDate.getDate() - 30);
+            startDate = new Date(startDate).toLocaleString('sv');
+            url = `https://api.exchange.coinbase.com/products/${pair}/candles?granularity=21600&start=${startDate}&end=${endDate}`;
+            break;
+        case "7":
+            startDate = startDate.setDate(startDate.getDate() - 7);
+            startDate = new Date(startDate).toLocaleString('sv');
+            url = `https://api.exchange.coinbase.com/products/${pair}/candles?granularity=3600&start=${startDate}&end=${endDate}`;
+            break;
+        case "24":
+            startDate = startDate.setDate(startDate.getDate() - 1);
+            startDate = new Date(startDate).toLocaleString('sv');
+            url = `https://api.exchange.coinbase.com/products/${pair}/candles?granularity=900&start=${startDate}&end=${endDate}`
+    }
+    return url;
+}
+
+const fetchCurrencyInfo = async (pair, socket, setPrice, first, setPastData, timeInterval) => {
+    const url = changeTimeInterval(timeInterval, pair);
     if (!first.current) {
         return;
     }
@@ -37,7 +61,6 @@ const fetchCurrencyInfo = async (url, pair, socket, setPrice, first, setPastData
     socket.current.send(subMsg);
 
     socket.current.onmessage = (e) => {
-        // console.log(e.data);
         let data = JSON.parse(e.data);
         if (data.type !== "ticker") {
             return;
@@ -48,9 +71,8 @@ const fetchCurrencyInfo = async (url, pair, socket, setPrice, first, setPastData
         }
     }
 
-    let historicalDataURL = `${url}/products/${pair}/candles?granularity=86400`;
     let dataArr = [];
-    await axios.get(historicalDataURL)
+    await axios.get(url)
         .then((data) => (dataArr = data));
 
     // helper function to format data that will be implemented later
@@ -58,7 +80,7 @@ const fetchCurrencyInfo = async (url, pair, socket, setPrice, first, setPastData
     setPastData(formattedData);
 }
 
-const changeCurrency = (e, url, pair, setPair, socket) => {
+const changeCurrency = (e, pair, setPair, socket) => {
     if(e.target.value === "Crypto currency") {
         return null;
     } else {
@@ -75,4 +97,4 @@ const changeCurrency = (e, url, pair, setPair, socket) => {
     }
 }
 
-export {fetchAllCurrencies, fetchCurrencyInfo, changeCurrency};
+export {fetchAllCurrencies, fetchCurrencyInfo, changeCurrency, changeTimeInterval};

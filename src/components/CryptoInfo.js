@@ -17,7 +17,9 @@ const CryptoInfo = (props) => {
     const {
         pair,
         price,
-        pastData
+        pastData,
+        timeInterval,
+        setTimeInterval
     } = props;
 
     return (
@@ -25,6 +27,8 @@ const CryptoInfo = (props) => {
                 <ChartPanel
                     pair={pair}
                     price={price}
+                    timeInterval={timeInterval}
+                    setTimeInterval={setTimeInterval}
                 />
 
                 <ChartComponent

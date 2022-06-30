@@ -14,7 +14,6 @@ const SelectCurrency = (props) => {
     const classes = currencySelectorStyles();
 
     const {
-        url,
         pair,
         setPair,
         socket,
@@ -28,7 +27,7 @@ const SelectCurrency = (props) => {
                 className={classes.selector}
                 select
                 value={pair}
-                onChange={(e) => changeCurrency(e, url, pair, setPair, socket)}
+                onChange={(e) => changeCurrency(e, pair, setPair, socket)}
                 SelectProps={{
                     native: true,
                 }}
