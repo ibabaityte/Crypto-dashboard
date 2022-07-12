@@ -1,3 +1,29 @@
+const getDateArr = (data) => {
+    //convert dates from timestamp to mm/dd/yy format
+    let dates = data.data.map((val) => {
+        const ts = val[0];
+        let date = new Date(ts * 1000);
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        return `${month}-${day}-${year}`;
+    });
+
+    //reverse dates array so it is in chronological order
+    return dates.reverse();
+};
+
+const getEndPriceArr = (data) => {
+    //coinbase API returns multiple price values, we want the ending price for that day
+    let priceArr = data.data.map((val) => {
+        return val[4];
+    });
+
+    //reverse price array so it is in chronological order
+    return priceArr.reverse();
+};
+
 export const formatData = (data) => {
     let finalData = {
         data: {
@@ -14,27 +40,8 @@ export const formatData = (data) => {
         }
     };
 
-    //convert dates from timestamp to mm/dd/yy format
-    let dates = data.data.map((val) => {
-        const ts = val[0];
-        let date = new Date(ts * 1000);
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-
-        return `${month}-${day}-${year}`;
-    });
-
-    //coinbase API returns multiple price values, we want the ending price for that day
-    let priceArr = data.data.map((val) => {
-        return val[4];
-    });
-
-    //reverse price array so it is in chronological order
-    priceArr.reverse();
-
-    //do same for dates
-    dates.reverse();
+    const dates = getDateArr(data);
+    const priceArr = getEndPriceArr(data);
 
     //set data labels as the date array for ChartJS
     finalData.data.labels = dates;
