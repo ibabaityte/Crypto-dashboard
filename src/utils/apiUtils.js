@@ -1,17 +1,47 @@
 import axios from "axios";
 import {formatData} from "./dataChartUtils";
-import React from "react";
+import {Msg} from "./msgUtils";
+
+const apiUrl = process.env.REACT_APP_API_URL;
+
+const getGranularity = (timeInterval) => {
+    switch(timeInterval) {
+        case 300:
+            return 86400;
+        case 30:
+            return 21600;
+        case 7:
+            return 3600;
+        case 1:
+            return 900;
+        default:
+            return null;
+    } 
+};
+
+const generateUrl = (timeInterval, pair) => {
+    const interval = parseInt(timeInterval);
+    let endDate = new Date();
+    let startDate = new Date();
+
+    if ([30, 7, 1].includes(interval)) {
+        startDate = startDate.setDate(startDate.getDate() - interval);
+        startDate = new Date(startDate).toLocaleString('sv');
+        return `${apiUrl}/products/${pair}/candles?granularity=${getGranularity(interval)}&start=${startDate}&end=${endDate}`;
+    } else {
+        return `${apiUrl}/products/${pair}/candles?granularity=${getGranularity(interval)}`;
+    }
+};
 
 const fetchAllCurrencies = async (setCurrencies, first) => {
     let pairs = [];
-    const url = "https://api.exchange.coinbase.com";
-    await axios.get(url + "/products")
+    await axios.get(`${apiUrl}/products`)
         .then(res => {
             pairs = res.data;
         })
         .catch(err => {
             console.log(err);
-        })
+        });
 
     let filtered = pairs.filter(pair => pair.quote_currency === 'USD');
     filtered.sort((a, b) => (a.base_currency > b.base_currency) ? 1 : -1);
@@ -20,45 +50,19 @@ const fetchAllCurrencies = async (setCurrencies, first) => {
 }
 
 const changeTimeInterval = (timeInterval, pair) => {
-    let url = "";
-    let endDate = new Date();
-    let startDate = new Date();
-    switch(timeInterval) {
-        case "300":
-            url = `https://api.exchange.coinbase.com/products/${pair}/candles?granularity=86400`;
-            break;
-        case "30":
-            startDate = startDate.setDate(startDate.getDate() - 30);
-            startDate = new Date(startDate).toLocaleString('sv');
-            url = `https://api.exchange.coinbase.com/products/${pair}/candles?granularity=21600&start=${startDate}&end=${endDate}`;
-            break;
-        case "7":
-            startDate = startDate.setDate(startDate.getDate() - 7);
-            startDate = new Date(startDate).toLocaleString('sv');
-            url = `https://api.exchange.coinbase.com/products/${pair}/candles?granularity=3600&start=${startDate}&end=${endDate}`;
-            break;
-        case "24":
-            startDate = startDate.setDate(startDate.getDate() - 1);
-            startDate = new Date(startDate).toLocaleString('sv');
-            url = `https://api.exchange.coinbase.com/products/${pair}/candles?granularity=900&start=${startDate}&end=${endDate}`
-    }
-    return url;
+    return generateUrl(timeInterval, pair);
 }
 
 const fetchCurrencyInfo = async (pair, socket, setPrice, first, setPastData, timeInterval) => {
-    const url = changeTimeInterval(timeInterval, pair);
     if (!first.current) {
         return;
     }
 
-    let sub = {
-        type: "subscribe",
-        product_ids: [pair],
-        channels: ["ticker"]
-    };
-    let subMsg = JSON.stringify(sub);
+    const url = changeTimeInterval(timeInterval, pair);
 
-    socket.current.send(subMsg);
+    let subMsgJson = Msg.getMsgJson(Msg.SubMsg, pair);
+
+    socket.current.send(subMsgJson);
 
     socket.current.onmessage = (e) => {
         let data = JSON.parse(e.data);
@@ -82,17 +86,10 @@ const fetchCurrencyInfo = async (pair, socket, setPrice, first, setPastData, tim
 
 const changeCurrency = (e, pair, setPair, socket) => {
     if(e.target.value === "Crypto currency") {
-        return null;
+        return;
     } else {
-        let unsub = {
-            type: "unsubscribe",
-            product_ids: [pair],
-            channels: ["ticker"]
-        };
-        let unsubMsg = JSON.stringify(unsub);
-
-        socket.current.send(unsubMsg);
-
+        let unsubMsgJson = Msg.getMsgJson(Msg.UnsubMsg, pair);
+        socket.current.send(unsubMsgJson);
         setPair(e.target.value);
     }
 }

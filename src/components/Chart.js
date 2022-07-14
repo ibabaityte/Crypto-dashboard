@@ -1,6 +1,6 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
-import { Chart, registerables } from 'chart.js';
+import { Chart as ChartJS, registerables } from 'chart.js';
 
 // material ui imports
 import {Grid} from "@material-ui/core";
@@ -8,9 +8,9 @@ import {Grid} from "@material-ui/core";
 // style imports
 import contentStyles from "../styles/contentStyles";
 
-Chart.register(...registerables);
+ChartJS.register(...registerables);
 
-const ChartComponent = (props) => {
+const Chart = (props) => {
 
     const classes = contentStyles();
 
@@ -44,4 +44,4 @@ const ChartComponent = (props) => {
     );
 }
 
-export default ChartComponent;
+export default Chart;

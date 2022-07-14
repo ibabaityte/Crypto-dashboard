@@ -2,7 +2,7 @@ import React from "react";
 
 // component imports
 import ChartPanel from "./ChartPanel";
-import ChartComponent from "./ChartComponent";
+import Chart from "./Chart";
 
 // material ui imports
 import {Grid} from "@material-ui/core";
@@ -31,7 +31,7 @@ const CryptoInfo = (props) => {
                     setTimeInterval={setTimeInterval}
                 />
 
-                <ChartComponent
+                <Chart
                     data={pastData}
                 />
         </Grid>
