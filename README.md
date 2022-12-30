@@ -1,5 +1,5 @@
 # CryptoDesk
-A cryptocurrency dashboard, where you can see real-time prices of USD based cryptocurrencies.
+React hooks and websockets app for displaying USD based real-time cryptocurrency prices and historical data.
 
 The prices are being fetched from Coinbase API.
 
