@@ -16,7 +16,7 @@ const getGranularity = (timeInterval) => {
             return 900;
         default:
             return null;
-    } 
+    }
 };
 
 const generateUrl = (timeInterval, pair) => {
@@ -27,6 +27,9 @@ const generateUrl = (timeInterval, pair) => {
     if ([30, 7, 1].includes(interval)) {
         startDate = startDate.setDate(startDate.getDate() - interval);
         startDate = new Date(startDate).toLocaleString('sv');
+        endDate = new Date(endDate).toLocaleString('sv');
+        console.log("start date", startDate);
+        console.log("end date", endDate);
         return `${apiUrl}/products/${pair}/candles?granularity=${getGranularity(interval)}&start=${startDate}&end=${endDate}`;
     } else {
         return `${apiUrl}/products/${pair}/candles?granularity=${getGranularity(interval)}`;
@@ -85,9 +88,7 @@ const fetchCurrencyInfo = async (pair, socket, setPrice, first, setPastData, tim
 }
 
 const changeCurrency = (e, pair, setPair, socket) => {
-    if(e.target.value === "Crypto currency") {
-        return;
-    } else {
+    if(e.target.value !== "Crypto currency") {
         let unsubMsgJson = Msg.getMsgJson(Msg.UnsubMsg, pair);
         socket.current.send(unsubMsgJson);
         setPair(e.target.value);
