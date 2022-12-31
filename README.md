@@ -28,7 +28,6 @@ Project is created with:
 git clone https://github.com/ibabaityte/CryptoDesk.git
 ```
 ### Install client
-```
 2. Install dependencies:
 ```
 npm i
