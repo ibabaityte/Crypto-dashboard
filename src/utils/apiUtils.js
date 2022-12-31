@@ -28,8 +28,6 @@ const generateUrl = (timeInterval, pair) => {
         startDate = startDate.setDate(startDate.getDate() - interval);
         startDate = new Date(startDate).toLocaleString('sv');
         endDate = new Date(endDate).toLocaleString('sv');
-        console.log("start date", startDate);
-        console.log("end date", endDate);
         return `${apiUrl}/products/${pair}/candles?granularity=${getGranularity(interval)}&start=${startDate}&end=${endDate}`;
     } else {
         return `${apiUrl}/products/${pair}/candles?granularity=${getGranularity(interval)}`;
