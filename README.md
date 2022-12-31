@@ -1,5 +1,5 @@
 # CryptoDesk
-A cryptocurrency dashboard, where you can see real-time prices of USD based cryptocurrencies.
+React hooks and websockets app for displaying USD based real-time cryptocurrency prices and historical data.
 
 The prices are being fetched from Coinbase API.
 
@@ -28,15 +28,11 @@ Project is created with:
 git clone https://github.com/ibabaityte/CryptoDesk.git
 ```
 ### Install client
-2. Get in the client folder:
-```
-cd client
-```
-3. Install dependencies:
+2. Install dependencies:
 ```
 npm i
 ```
-4. Start server:
+3. Start server:
 ```
 npm start
 ```
