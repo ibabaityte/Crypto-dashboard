@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {FC, useState, useEffect, useRef} from "react";
 
 // style imports
 import "./styles/styles.css";
@@ -12,28 +12,32 @@ import {fetchAllCurrencies, fetchCurrencyInfo} from "./utils/apiUtils";
 // component imports
 import Header from "./components/Header";
 import Content from "./components/Content";
+import { PastDataInterface } from "./utils/interfaces";
 
-const App = () => {
 
-    const [currencies, setCurrencies] = useState([]);
-    const [pair, setPair] = useState("");
-    const [price, setPrice] = useState("0.00");
-    const [pastData, setPastData] = useState({
+const App: React.FC = () : React.JSX.Element => {
+
+    const [currencies, setCurrencies] = useState<string[]>([]);
+    const [pair, setPair] = useState<string>("");
+    const [price, setPrice] = useState<string>("0.00");
+    const [timeInterval, setTimeInterval] = useState<string>("300");
+    const [pastData, setPastData] = useState<PastDataInterface>({
         datasets: [],
         labels: []
     });
-    const [timeInterval, setTimeInterval] = useState("300");
 
-    let socket = useRef(null);
-    let first = useRef(false);
+    let socket = useRef<WebSocket | null>(null);
+    let first = useRef<Boolean>(false);
 
+    // TS is already expecting useEffect to return a function(void) or undefined so we do not need to declare any return types
     useEffect(() => {
         socket.current = new WebSocket('wss://ws-feed.pro.coinbase.com');
-        fetchAllCurrencies(setCurrencies, first).then(err => err ? console.log(err) : null);
+        fetchAllCurrencies(setCurrencies, first);
     }, []);
 
+    // TS is already expecting useEffect to return a function(void) or undefined so we do not need to declare any return types
     useEffect(() => {
-        fetchCurrencyInfo(pair, socket, setPrice, first, setPastData, timeInterval).then(err => err ? console.log(err) : null);
+        fetchCurrencyInfo(pair, socket, setPrice, first, setPastData, timeInterval);
     }, [pair, timeInterval]);
 
     return (

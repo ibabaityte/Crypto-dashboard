@@ -20,5 +20,4 @@ yarn-error.log*
 
 yarn.lock
 package-lock.json
-.gitignore
 /src/react-app-env.d.ts

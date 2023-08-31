@@ -28,7 +28,8 @@ export const formatData = (data) => {
     let finalData = {
         data: {
             labels: [],
-            datasets: [
+            datasets: 
+            [
                 {
                     label: "Price",
                     data: [],
