@@ -1,6 +1,6 @@
 import axios from "axios";
 import {formatData} from "./dataChartUtils";
-import {Msg} from "./msgUtils";
+import {Msg} from "./msgUtils.ts";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -67,6 +67,7 @@ const fetchCurrencyInfo = async (pair, socket, setPrice, first, setPastData, tim
 
     socket.current.onmessage = (e) => {
         let data = JSON.parse(e.data);
+        console.log(data);
         if (data.type !== "ticker") {
             return;
         }
