@@ -1,4 +1,4 @@
-import React, {FC, useState, useEffect, useRef} from "react";
+import React, {FC, JSX, useState, useEffect, useRef} from "react";
 
 // style imports
 import "./styles/styles.css";
@@ -15,7 +15,7 @@ import Content from "./components/Content";
 import { PastDataInterface } from "./utils/interfaces";
 
 
-const App: React.FC = () : React.JSX.Element => {
+const App: FC = () : JSX.Element => {
 
     const [currencies, setCurrencies] = useState<string[]>([]);
     const [pair, setPair] = useState<string>("");
