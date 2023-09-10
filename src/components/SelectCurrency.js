@@ -1,7 +1,7 @@
 import React from "react";
 
 // util imports
-import {changeCurrency} from "../utils/apiUtils";
+import APIUtils from "../utils/APIUtils";
 
 // material ui imports
 import {Grid, TextField} from "@material-ui/core";
@@ -27,7 +27,7 @@ const SelectCurrency = (props) => {
                 className={classes.selector}
                 select
                 value={pair}
-                onChange={(e) => changeCurrency(e, pair, setPair, socket)}
+                onChange={(e) => APIUtils.changeCurrency(e, pair, setPair, socket)}
                 SelectProps={{
                     native: true,
                 }}

@@ -7,12 +7,13 @@ import "./styles/styles.css";
 import {Grid} from "@material-ui/core";
 
 // util imports
-import {fetchAllCurrencies, fetchCurrencyInfo} from "./utils/apiUtils";
+import ApiUtils from "./utils/APIUtils";
 
 // component imports
 import Header from "./components/Header";
 import Content from "./components/Content";
-import { PastDataInterface } from "./utils/interfaces";
+import { FormattedDataInterface } from "./utils/interfaces";
+import { FormattedData } from "./utils/models/FormattedData";
 
 
 const App: FC = () : JSX.Element => {
@@ -21,10 +22,7 @@ const App: FC = () : JSX.Element => {
     const [pair, setPair] = useState<string>("");
     const [price, setPrice] = useState<string>("0.00");
     const [timeInterval, setTimeInterval] = useState<string>("300");
-    const [pastData, setPastData] = useState<PastDataInterface>({
-        datasets: [],
-        labels: []
-    });
+    const [pastData, setPastData] = useState<FormattedDataInterface>(new FormattedData([], []));
 
     let socket = useRef<WebSocket | null>(null);
     let first = useRef<Boolean>(false);
@@ -32,12 +30,12 @@ const App: FC = () : JSX.Element => {
     // TS is already expecting useEffect to return a function(void) or undefined so we do not need to declare any return types
     useEffect(() => {
         socket.current = new WebSocket('wss://ws-feed.pro.coinbase.com');
-        fetchAllCurrencies(setCurrencies, first);
+        ApiUtils.fetchAllCurrencies(setCurrencies, first);
     }, []);
 
     // TS is already expecting useEffect to return a function(void) or undefined so we do not need to declare any return types
     useEffect(() => {
-        fetchCurrencyInfo(pair, socket, setPrice, first, setPastData, timeInterval);
+        ApiUtils.fetchCurrencyInfo(pair, socket, setPrice, first, setPastData, timeInterval);
     }, [pair, timeInterval]);
 
     return (
