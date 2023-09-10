@@ -1,4 +1,4 @@
-class Msg {
+export default class Msg {
     static SubMsg: Msg = new Msg("subscribe");
     static UnsubMsg: Msg = new Msg("unsubscribe");
     private name: string;
@@ -19,5 +19,3 @@ class Msg {
         });
     };
 }
-
-export {Msg}
