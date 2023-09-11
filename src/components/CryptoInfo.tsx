@@ -1,4 +1,5 @@
-import React from "react";
+import React, { FC } from "react";
+import { CryptoInfoPropInterface } from "../utils/interfaces";
 
 // component imports
 import ChartPanel from "./ChartPanel";
@@ -10,7 +11,7 @@ import {Grid} from "@material-ui/core";
 // style imports
 import contentStyles from "../styles/contentStyles";
 
-const CryptoInfo = (props) => {
+const CryptoInfo: FC<CryptoInfoPropInterface> = (props: CryptoInfoPropInterface): JSX.Element => {
 
     const classes = contentStyles();
 
@@ -32,7 +33,7 @@ const CryptoInfo = (props) => {
                 />
 
                 <Chart
-                    data={pastData}
+                    pastData={pastData}
                 />
         </Grid>
     );
