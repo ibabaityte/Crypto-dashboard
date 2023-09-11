@@ -1,4 +1,5 @@
-import React from "react";
+import React, {FC, JSX} from "react";
+import { PricePropInterface } from "../utils/interfaces";
 
 // style imports
 import contentStyles from "../styles/contentStyles";
@@ -6,7 +7,7 @@ import contentStyles from "../styles/contentStyles";
 // material ui imports
 import {Grid} from "@material-ui/core";
 
-const Price = (props) => {
+const Price: FC<PricePropInterface> = (props: PricePropInterface): JSX.Element => {
 
     const classes = contentStyles();
 
