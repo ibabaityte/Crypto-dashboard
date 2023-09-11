@@ -13,7 +13,12 @@ export interface CryptoInfoPropInterface {
     setTimeInterval: Function
 }
 
-export interface ChartPanelPropInterface {}
+export interface ChartPanelPropInterface {
+    pair: string,
+    price: string,
+    timeInterval: string,
+    setTimeInterval: Function
+}
 
 export interface ChartPropInterface {
     pastData: FormattedDataPropInterface

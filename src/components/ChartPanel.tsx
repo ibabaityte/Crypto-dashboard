@@ -1,4 +1,5 @@
-import React from "react";
+import React, {FC, JSX} from "react";
+import { ChartPanelPropInterface } from "../utils/interfaces";
 
 // material ui imports
 import {Grid} from "@material-ui/core";
@@ -7,7 +8,7 @@ import {Grid} from "@material-ui/core";
 import Price from "./Price";
 import TimeInterval from "./TimeInterval";
 
-const ChartPanel = (props) => {
+const ChartPanel: FC<ChartPanelPropInterface> = (props: ChartPanelPropInterface): JSX.Element => {
 
     const {
         pair,
