@@ -1,4 +1,5 @@
-import React from "react";
+import React, {FC, JSX} from "react";
+import { TimeIntervalPropInterface } from "../utils/interfaces";
 
 // material ui imports
 import {Button, ButtonGroup, Grid} from "@material-ui/core";
@@ -6,7 +7,7 @@ import {Button, ButtonGroup, Grid} from "@material-ui/core";
 // style imports
 import contentStyles from "../styles/contentStyles";
 
-const TimeInterval = (props) => {
+const TimeInterval: FC<TimeIntervalPropInterface> = (props: TimeIntervalPropInterface): JSX.Element => {
     const {
         timeInterval,
         setTimeInterval

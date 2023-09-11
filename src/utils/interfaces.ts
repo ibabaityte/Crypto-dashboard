@@ -5,7 +5,10 @@ export interface PricePropInterface {
     price: string
 }
 
-export interface TimeIntervalPropInterface {}
+export interface TimeIntervalPropInterface {
+    timeInterval: string,
+    setTimeInterval: Function
+}
 
 export interface CryptoInfoPropInterface {
     pair: string,
