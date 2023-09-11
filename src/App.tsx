@@ -12,17 +12,19 @@ import ApiUtils from "./utils/APIUtils";
 // component imports
 import Header from "./components/Header";
 import Content from "./components/Content";
-import { FormattedDataInterface } from "./utils/interfaces";
-import { FormattedData } from "./utils/models/FormattedData";
+import { CurrencyPairInterface, FormattedDataPropInterface } from "./utils/interfaces";
 
 
 const App: FC = () : JSX.Element => {
 
-    const [currencies, setCurrencies] = useState<string[]>([]);
+    const [currencies, setCurrencies] = useState<CurrencyPairInterface[]>([]);
     const [pair, setPair] = useState<string>("");
     const [price, setPrice] = useState<string>("0.00");
     const [timeInterval, setTimeInterval] = useState<string>("300");
-    const [pastData, setPastData] = useState<FormattedDataInterface>(new FormattedData([], []));
+    const [pastData, setPastData] = useState<FormattedDataPropInterface>({
+        labels: [],
+        datasets: []
+    });
 
     let socket = useRef<WebSocket | null>(null);
     let first = useRef<Boolean>(false);
@@ -37,6 +39,8 @@ const App: FC = () : JSX.Element => {
     useEffect(() => {
         ApiUtils.fetchCurrencyInfo(pair, socket, setPrice, first, setPastData, timeInterval);
     }, [pair, timeInterval]);
+
+    console.log(currencies);
 
     return (
         <Grid container className="App">

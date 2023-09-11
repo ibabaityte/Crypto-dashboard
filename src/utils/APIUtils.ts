@@ -89,11 +89,12 @@ export default class APIUtils {
             );
     }
 
-    static changeCurrency = (e: React.ChangeEvent<HTMLInputElement>, pair: string, setPair: Function, socket: React.MutableRefObject<WebSocket>) => {
-        console.log(e.nativeEvent);
+    static changeCurrency = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, pair: string, setPair: Function, socket: React.MutableRefObject<WebSocket | null>) => {
         if (e.target.value !== "Crypto currency") {
             let unsubMsgJson = Msg.getMsgJson(Msg.UnsubMsg, pair);
-            socket.current.send(unsubMsgJson);
+            if (socket.current != null) {
+                socket.current.send(unsubMsgJson);
+            }
             setPair(e.target.value);
         }
     }

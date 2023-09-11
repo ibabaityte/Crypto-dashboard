@@ -1,3 +1,5 @@
+import { MutableRefObject } from "react"
+
 export interface PricePropInterface {
     pair: string,
     price: string
@@ -24,15 +26,20 @@ export interface ChartPropInterface {
     pastData: FormattedDataPropInterface
 }
 
-export interface SelectCurrencyPropInterface {}
+export interface SelectCurrencyPropInterface {
+    pair: string, 
+    setPair: Function, 
+    socket: MutableRefObject<WebSocket | null>, 
+    currencies: Array<CurrencyPairInterface>
+}
 
 export interface ContentPropInterface {
     price: string,
     pastData: FormattedDataPropInterface,
     pair: string, 
     setPair: Function, 
-    socket: WebSocket,
-    currencies: Array<string>,
+    socket: MutableRefObject<WebSocket | null>,
+    currencies: Array<CurrencyPairInterface>,
     timeInterval: string, 
     setTimeInterval: Function
 }
@@ -95,7 +102,8 @@ export interface FormattedDataInterface {
 
 export interface CurrencyPairInterface {
     base_currency: string,
-    quote_currency: string
+    quote_currency: string,
+    id: string
 }
 
 export interface SocketMessageEventInterface {

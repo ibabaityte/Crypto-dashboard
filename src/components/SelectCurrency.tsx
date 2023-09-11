@@ -1,4 +1,5 @@
-import React from "react";
+import React, {FC, JSX} from "react";
+import { SelectCurrencyPropInterface } from "../utils/interfaces";
 
 // util imports
 import APIUtils from "../utils/APIUtils";
@@ -9,7 +10,7 @@ import {Grid, TextField} from "@material-ui/core";
 // style imports
 import currencySelectorStyles from "../styles/currencySelectorStyles";
 
-const SelectCurrency = (props) => {
+const SelectCurrency: FC<SelectCurrencyPropInterface> = (props: SelectCurrencyPropInterface): JSX.Element => {
 
     const classes = currencySelectorStyles();
 
@@ -32,7 +33,7 @@ const SelectCurrency = (props) => {
                     native: true,
                 }}
             >
-                <option value={null}>Crypto currency</option>
+                <option>Crypto currency</option>
                 {
                     currencies.map((currency, key) => {
                         return <option key={key} value={currency.id}>{currency.id}</option>
