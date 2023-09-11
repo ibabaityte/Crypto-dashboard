@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC, JSX} from "react";
 
 // material ui imports
 import {Grid} from "@material-ui/core";
@@ -6,7 +6,7 @@ import {Grid} from "@material-ui/core";
 // style imports
 import headerStyles from "../styles/headerStyles";
 
-const Header = () => {
+const Header: FC = (): JSX.Element => {
 
     const classes = headerStyles();
 
