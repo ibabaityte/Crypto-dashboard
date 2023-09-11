@@ -1,4 +1,5 @@
-import React from "react";
+import React, {FC, JSX} from "react";
+import { ContentPropInterface } from "../utils/interfaces";
 
 // material ui imports
 import {Grid} from "@material-ui/core";
@@ -10,7 +11,7 @@ import CryptoInfo from "./CryptoInfo";
 // style imports
 import contentStyles from "../styles/contentStyles";
 
-const Content = (props) => {
+const Content: FC<ContentPropInterface> = (props: ContentPropInterface): JSX.Element => {
 
     const classes = contentStyles();
 

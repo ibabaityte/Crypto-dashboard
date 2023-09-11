@@ -1,4 +1,7 @@
-export interface PricePropInterface {}
+export interface PricePropInterface {
+    pair: string,
+    price: string
+}
 
 export interface TimeIntervalPropInterface {}
 
@@ -18,7 +21,16 @@ export interface ChartPropInterface {
 
 export interface SelectCurrencyPropInterface {}
 
-export interface ContentPropInterface {}
+export interface ContentPropInterface {
+    price: string,
+    pastData: FormattedDataPropInterface,
+    pair: string, 
+    setPair: Function, 
+    socket: WebSocket,
+    currencies: Array<string>,
+    timeInterval: string, 
+    setTimeInterval: Function
+}
 
 export interface ChartOptionsInterface {
     tooltips: {
