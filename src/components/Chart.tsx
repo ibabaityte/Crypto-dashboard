@@ -1,6 +1,7 @@
-import React from "react";
+import React, {FC, JSX,} from "react";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from 'chart.js';
+import { ChartPropInterface, ChartOptionsInterface } from "../utils/interfaces";
 
 // material ui imports
 import {Grid} from "@material-ui/core";
@@ -10,11 +11,11 @@ import contentStyles from "../styles/contentStyles";
 
 ChartJS.register(...registerables);
 
-const Chart = (props) => {
+const Chart: FC<ChartPropInterface> = (props: ChartPropInterface): JSX.Element => {
+    const {pastData} = props;
+    const classes = contentStyles(); // ?? type
 
-    const classes = contentStyles();
-
-    const opts = {
+    const opts: ChartOptionsInterface = {
         tooltips: {
             intersect: false,
             mode: "index"
@@ -38,7 +39,7 @@ const Chart = (props) => {
     return (
         <Grid item xs={12} className={classes.chartContainer}>
             <div className={classes.chart}>
-                <Line data={props.data} options={opts} />
+                <Line data={pastData} options={opts} />
             </div>
         </Grid>
     );

@@ -83,7 +83,6 @@ export default class APIUtils {
 
         await axios.get(url)
             .then((result: ApiResultInterface) => {
-                // helper function to format data that will be implemented later
                 let formattedData: FormattedDataInterface = DataChartUtils.formatData(result);
                 setPastData(formattedData);
             }
